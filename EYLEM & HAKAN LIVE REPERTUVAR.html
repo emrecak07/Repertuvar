@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="tr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+		<title>EYLEM & HAKAN LIVE REPERTUVAR</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<style>
+			:root {
+			    --bg-main: #050508;
+			    --bg-secondary: #0b0d14;
+			    --card-bg: rgba(18, 22, 34, 0.65);
+			    --sidebar-bg: rgba(12, 14, 22, 0.85);
+			    --gold-primary: #f3d078;
+			    --gold-gradient: linear-gradient(135deg, #fff2cb 0%, #e8bc59 50%, #b28328 100%);
+			    --gold-glow: rgba(243, 208, 120, 0.15);
+			    --border-gold: rgba(243, 208, 120, 0.2);
+			    --text-main: #f8fafc;
+			    --text-muted: #94a3b8;
+			    --folder-font-size: 15px;
+			    --active-glow: 0 0 25px rgba(243, 208, 120, 0.25);
+			}
+
+			* {
+			    box-sizing: border-box;
+			    -webkit-tap-highlight-color: transparent;
+			    user-select: none;
+			}
+
+			body {
+			    margin: 0;
+			    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+			    background: var(--bg-main);
+			    color: var(--text-main);
+			    height: 100vh;
+			    display: flex;
+			    flex-direction: column;
+			    overflow: hidden;
+			    background-image:
+			        radial-gradient(circle at 15% 15%, rgba(243, 208, 120, 0.05) 0%, transparent 40%),
+			        radial-gradient(circle at 85% 85%, rgba(178, 131, 40, 0.05) 0%, transparent 40%);
+			}
+
+			/* Premium Header */
+			header {
+			    background: rgba(8, 10, 16, 0.85);
+			    backdrop-filter: blur(20px);
+			    -webkit-backdrop-filter: blur(20px);
+			    padding: 16px 28px;
+			    border-bottom: 1px solid var(--border-gold);
+			    display: flex;
+			    justify-content: space-between;
+			    align-items: center;
+			    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+			    z-index: 50;
+			}
+
+			.header-title {
+			    font-family: 'Cinzel', serif;
+			    font-size: 20px;
+			    font-weight: 800;
+			    letter-spacing: 2.5px;
+			    background: var(--gold-gradient);
+			    -webkit-background-clip: text;
+			    -webkit-text-fill-color: transparent;
+			    text-shadow: 0 0 30px rgba(243, 208, 120, 0.2);
+			    display: flex;
+			    align-items: center;
+			    gap: 12px;
+			}
+
+			.header-title::before {
+			    content: '✦';
+			    font-size: 16px;
+			    -webkit-text-fill-color: var(--gold-primary);
+			}
+
+			.header-actions {
+			    display: flex;
+			    align-items: center;
+			    gap: 12px;
+			}
+
+			/* Glassmorphism Toolbar */
+			.toolbar {
+			    background: rgba(14, 17, 26, 0.6);
+			    backdrop-filter: blur(12px);
+			    padding: 12px 24px;
+			    display: flex;
+			    align-items: center;
+			    gap: 16px;
+			    border-bottom: 1px solid rgba(255,255,255,0.05);
+			    flex-wrap: wrap;
+			    z-index: 40;
+			}
+
+			.control-group {
+			    display: flex;
+			    align-items: center;
+			    gap: 8px;
+			    background: rgba(0, 0, 0, 0.4);
+			    padding: 4px 10px;
+			    border-radius: 10px;
+			    border: 1px solid var(--border-gold);
+			}
+
+			.control-label {
+			    font-size: 11px;
+			    color: var(--gold-primary);
+			    font-weight: 700;
+			    letter-spacing: 1px;
+			    text-transform: uppercase;
+			}
+
+			.main { display: flex; flex: 1; overflow: hidden; position: relative; }
+
+			/* Premium Sidebar */
+			.sidebar {
+			    width: 380px;
+			    min-width: 280px;
+			    max-width: 600px;
+			    background: var(--sidebar-bg);
+			    backdrop-filter: blur(25px);
+			    -webkit-backdrop-filter: blur(25px);
+			    display: flex;
+			    flex-direction: column;
+			    position: relative;
+			    border-right: 1px solid var(--border-gold);
+			    z-index: 30;
+			}
+
+			.resizer {
+			    width: 8px;
+			    background: transparent;
+			    cursor: col-resize;
+			    position: absolute;
+			    top: 0; right: -4px; bottom: 0;
+			    z-index: 10;
+			    touch-action: none;
+			    transition: background 0.3s;
+			}
+			.resizer:hover, .resizer:active {
+			    background: var(--gold-primary);
+			    box-shadow: 0 0 10px var(--gold-primary);
+			}
+
+			.sidebar-controls {
+			    padding: 16px;
+			    background: rgba(0, 0, 0, 0.2);
+			    border-bottom: 1px solid rgba(255,255,255,0.05);
+			    display: flex;
+			    flex-direction: column;
+			    gap: 12px;
+			}
+
+			.search-box {
+			    display: flex;
+			    align-items: center;
+			    background: rgba(0, 0, 0, 0.5);
+			    border: 1px solid var(--border-gold);
+			    border-radius: 12px;
+			    padding: 4px 14px;
+			    transition: all 0.3s ease;
+			}
+			.search-box:focus-within {
+			    border-color: var(--gold-primary);
+			    box-shadow: 0 0 15px var(--gold-glow);
+			}
+			.search-box input {
+			    background: transparent;
+			    border: none;
+			    color: #fff;
+			    padding: 10px 8px;
+			    font-size: 14px;
+			    width: 100%;
+			    outline: none;
+			    user-select: auto;
+			    font-family: inherit;
+			}
+
+			.breadcrumb {
+			    padding: 12px 18px;
+			    background: rgba(0,0,0,0.4);
+			    font-size: 12px;
+			    color: var(--gold-primary);
+			    border-bottom: 1px solid rgba(255,255,255,0.05);
+			    font-weight: 600;
+			    letter-spacing: 0.5px;
+			    display: flex;
+			    justify-content: space-between;
+			    align-items: center;
+			}
+
+			.file-list {
+			    flex: 1;
+			    overflow-y: auto;
+			    list-style: none;
+			    padding: 10px;
+			    margin: 0;
+			}
+
+			/* Premium List Items */
+			.item {
+			    padding: 12px 16px;
+			    margin-bottom: 6px;
+			    border-radius: 12px;
+			    cursor: pointer;
+			    display: flex;
+			    align-items: center;
+			    justify-content: space-between;
+			    font-size: var(--folder-font-size);
+			    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+			    background: rgba(255, 255, 255, 0.02);
+			    border: 1px solid rgba(255, 255, 255, 0.03);
+			}
+			.item:hover {
+			    background: rgba(243, 208, 120, 0.08);
+			    border-color: var(--border-gold);
+			    transform: translateX(3px);
+			}
+			.item:active { transform: scale(0.98); }
+			.item-info { display: flex; align-items: center; gap: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+			.item.folder { color: var(--gold-primary); font-weight: 600; }
+			.item.file { color: #e2e8f0; }
+
+			.item.active {
+			    background: var(--gold-gradient) !important;
+			    color: #000 !important;
+			    font-weight: 700;
+			    box-shadow: var(--active-glow);
+			    border: none;
+			}
+			.item.active .icon, .item.active small { color: #000 !important; opacity: 0.8; }
+			.item.active .fav-btn { color: rgba(0,0,0,0.4); }
+			.item.active .fav-btn.active { color: #000; }
+
+			.icon { width: 1.3em; text-align: center; flex-shrink: 0; font-size: 1.2em; color: var(--gold-primary); }
+
+			.fav-btn {
+			    cursor: pointer;
+			    color: rgba(255,255,255,0.2);
+			    font-size: 1.3em;
+			    padding: 4px 8px;
+			    transition: all 0.2s;
+			}
+			.fav-btn:hover { transform: scale(1.2); }
+			.fav-btn.active { color: var(--gold-primary); text-shadow: 0 0 10px var(--gold-primary); }
+
+			/* Stage Content Area */
+			.content {
+			    flex: 1;
+			    padding: 30px;
+			    overflow-y: auto;
+			    display: flex;
+			    flex-direction: column;
+			    align-items: center;
+			    position: relative;
+			    background: radial-gradient(circle at center, rgba(18, 22, 34, 0.4) 0%, rgba(5, 5, 8, 0.8) 100%);
+			}
+
+			.lyrics-toolbar {
+			    width: 100%;
+			    max-width: 900px;
+			    display: none;
+			    justify-content: flex-end;
+			    gap: 10px;
+			    margin-bottom: 16px;
+			}
+
+			/* Glass Meta Panel */
+			.meta-panel {
+			    width: 100%;
+			    max-width: 900px;
+			    background: var(--card-bg);
+			    backdrop-filter: blur(20px);
+			    -webkit-backdrop-filter: blur(20px);
+			    border: 1px solid var(--border-gold);
+			    border-radius: 16px;
+			    padding: 18px 24px;
+			    margin-bottom: 24px;
+			    display: none;
+			    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+			    gap: 18px;
+			    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+			}
+			.meta-group { display: flex; flex-direction: column; gap: 6px; }
+			.meta-group label { font-size: 10px; color: var(--gold-primary); text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px; }
+			.meta-group input {
+			    background: rgba(0, 0, 0, 0.5);
+			    border: 1px solid rgba(255,255,255,0.1);
+			    color: #fff;
+			    padding: 10px 14px;
+			    border-radius: 8px;
+			    font-size: 14px;
+			    font-weight: 600;
+			    outline: none;
+			    transition: border 0.3s;
+			}
+			.meta-group input:focus { border-color: var(--gold-primary); }
+
+			#lyricsContainer { width: 100%; max-width: 900px; }
+
+			#lyrics {
+			    white-space: pre-wrap;
+			    width: 100%;
+			    font-weight: 600;
+			    line-height: 1.7;
+			    font-size: 30px;
+			    color: #ffffff;
+			    user-select: text;
+			    text-shadow: 0 4px 12px rgba(0,0,0,0.9);
+			    letter-spacing: 0.3px;
+			}
+
+			#lyricsEdit {
+			    width: 100%;
+			    height: 550px;
+			    background: rgba(0, 0, 0, 0.6);
+			    border: 1px solid var(--gold-primary);
+			    color: #fff;
+			    padding: 20px;
+			    font-size: 22px;
+			    line-height: 1.6;
+			    border-radius: 12px;
+			    display: none;
+			    resize: vertical;
+			    outline: none;
+			    font-family: inherit;
+			    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+			}
+
+			/* Buttons */
+			.btn {
+			    background: rgba(255,255,255,0.03);
+			    color: #e2e8f0;
+			    padding: 10px 18px;
+			    border-radius: 10px;
+			    cursor: pointer;
+			    border: 1px solid rgba(255,255,255,0.1);
+			    font-size: 13px;
+			    font-weight: 600;
+			    display: inline-flex;
+			    align-items: center;
+			    justify-content: center;
+			    gap: 8px;
+			    transition: all 0.2s ease;
+			    backdrop-filter: blur(5px);
+			}
+			.btn:hover {
+			    background: rgba(243, 208, 120, 0.1);
+			    border-color: var(--gold-primary);
+			    color: var(--gold-primary);
+			}
+			.btn:active { transform: scale(0.96); }
+
+			.btn-gold {
+			    background: var(--gold-gradient);
+			    color: #000;
+			    font-weight: 700;
+			    border: none;
+			    box-shadow: 0 4px 15px rgba(243, 208, 120, 0.2);
+			}
+			.btn-gold:hover {
+			    color: #000;
+			    box-shadow: 0 6px 20px rgba(243, 208, 120, 0.4);
+			    filter: brightness(1.1);
+			}
+
+			.btn-danger { color: #ff6b6b; border-color: rgba(255,107,107,0.2); }
+			.btn-danger:hover { background: rgba(255,107,107,0.1); border-color: #ff6b6b; color: #ff6b6b; }
+			.btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+
+			select {
+			    background: rgba(0,0,0,0.5);
+			    color: var(--gold-primary);
+			    border: 1px solid var(--border-gold);
+			    padding: 10px 14px;
+			    border-radius: 10px;
+			    font-size: 13px;
+			    outline: none;
+			    font-weight: 600;
+			    cursor: pointer;
+			}
+
+			input[type="file"] { display: none; }
+			input[type="range"] { accent-color: var(--gold-primary); height: 6px; cursor: pointer; }
+
+			/* Modals */
+			.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+			.modal-content { background: #0e111a; border: 1px solid var(--border-gold); padding: 28px; border-radius: 16px; width: 92%; max-width: 550px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 25px 60px rgba(0,0,0,0.9); }
+			.modal-content input, .modal-content select, .modal-content textarea { user-select: auto; font-family: inherit; }
+			.modal-content textarea { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 14px; height: 180px; font-size: 14px; border-radius: 10px; resize: vertical; outline: none; }
+			.modal-content textarea:focus { border-color: var(--gold-primary); }
+
+			/* Context Menu */
+			.context-menu {
+			    display: none;
+			    position: fixed;
+			    z-index: 1000;
+			    background: rgba(14, 17, 26, 0.95);
+			    border: 1px solid var(--border-gold);
+			    border-radius: 12px;
+			    box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+			    padding: 8px 0;
+			    min-width: 200px;
+			    backdrop-filter: blur(20px);
+			}
+			.context-menu-item {
+			    padding: 10px 18px;
+			    font-size: 13px;
+			    color: #e2e8f0;
+			    cursor: pointer;
+			    display: flex;
+			    align-items: center;
+			    gap: 10px;
+			    transition: all 0.15s;
+			    font-weight: 500;
+			}
+			.context-menu-item:hover {
+			    background: rgba(243, 208, 120, 0.15);
+			    color: var(--gold-primary);
+			}
+			.context-menu-item.danger { color: #ff6b6b; }
+			.context-menu-item.danger:hover { background: rgba(255, 107, 107, 0.15); }
+
+			::-webkit-scrollbar { width: 6px; height: 6px; }
+			::-webkit-scrollbar-track { background: transparent; }
+			::-webkit-scrollbar-thumb { background: rgba(243, 208, 120, 0.2); border-radius: 10px; }
+			::-webkit-scrollbar-thumb:hover { background: rgba(243, 208, 120, 0.4); }
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header-title">EYLEM & HAKAN LIVE REPERTUVAR</div>
+			<div class="header-actions">
+				<button class="btn btn-sm" onclick="openNewFolderModal()">
+					📁 Yeni Klasör
+				</button>
+				<button class="btn btn-gold btn-sm" onclick="openAddModal()">
+					➕ Şarkı / TXT Ekle
+				</button>
+				<button class="btn btn-sm" id="refresh">🔄 Yenile</button>
+			</div>
+		</header>
+
+		<div class="toolbar">
+			<label class="btn" for="folderInput">📂 Klasör Yükle</label>
+			<input
+				type="file"
+				id="folderInput"
+				webkitdirectory
+				directory
+				multiple
+			/>
+
+			<button class="btn" onclick="goBack()">⬅ Geri</button>
+
+			<div class="control-group">
+				<span class="control-label">Liste:</span>
+				<button class="btn btn-sm" onclick="adjustFolderFontSize(-2)">
+					A-
+				</button>
+				<button class="btn btn-sm" onclick="adjustFolderFontSize(2)">
+					A+
+				</button>
+			</div>
+
+			<div class="control-group">
+				<span class="control-label">Sözler:</span>
+				<button class="btn btn-sm" onclick="adjustLyricsFontSize(-4)">
+					A-
+				</button>
+				<input
+					type="range"
+					id="fontSize"
+					min="16"
+					max="80"
+					value="30"
+					style="width: 100px;"
+				/>
+				<button class="btn btn-sm" onclick="adjustLyricsFontSize(4)">
+					A+
+				</button>
+			</div>
+		</div>
+
+		<div class="main">
+			<div class="sidebar" id="sidebar">
+				<div class="sidebar-controls">
+					<div class="search-box">
+						<span style="color:var(--gold-primary);">🔍</span>
+						<input
+							type="text"
+							id="searchInput"
+							placeholder="Şarkı veya sanatçı ara..."
+						/>
+					</div>
+
+					<div style="display: flex; gap: 8px;">
+						<select id="viewMode" style="flex: 1;">
+							<option value="explorer">📁 Klasör</option>
+							<option value="all">🎶 Tüm Şarkılar</option>
+							<option value="favorites">⭐ Favoriler</option>
+							<option value="web">
+								📝 Eklenen / Düzenlenenler
+							</option>
+						</select>
+						<select id="sortMode" style="flex: 1;">
+							<option value="az">Sıra: A-Z</option>
+							<option value="za">Sıra: Z-A</option>
+							<option value="album">Sıra: Sanatçı/Klasör</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="breadcrumb" id="pathDisplay">
+					<span id="pathText">Henüz klasör seçilmedi</span>
+					<button
+						class="btn btn-sm"
+						onclick="openNewFolderModal()"
+						style="padding: 2px 8px; font-size: 11px;"
+					>
+						+ Klasör
+					</button>
+				</div>
+				<ul class="file-list" id="explorer"></ul>
+
+				<div class="resizer" id="resizer"></div>
+			</div>
+
+			<div class="content">
+				<div class="lyrics-toolbar" id="lyricsToolbar">
+					<button
+						class="btn btn-sm"
+						id="editBtn"
+						onclick="toggleEditLyrics()"
+					>
+						✏️ Düzenle
+					</button>
+					<button
+						class="btn btn-sm btn-gold"
+						id="saveBtn"
+						onclick="saveEditedLyrics()"
+						style="display:none;"
+					>
+						💾 Kaydet
+					</button>
+					<button
+						class="btn btn-sm btn-danger"
+						onclick="deleteCurrentSong()"
+					>
+						🗑️ Şarkıyı Sil
+					</button>
+				</div>
+
+				<div class="meta-panel" id="metaPanel">
+					<div class="meta-group">
+						<label>Ritim / Rhythm</label>
+						<input
+							type="text"
+							id="metaRhythm"
+							placeholder="Örn: Pop, Slow 4/4"
+						/>
+					</div>
+					<div class="meta-group">
+						<label>BPM (Tempo)</label>
+						<input
+							type="text"
+							id="metaBpm"
+							placeholder="Örn: 120"
+						/>
+					</div>
+					<div class="meta-group">
+						<label>Ses / Ton (Key)</label>
+						<input
+							type="text"
+							id="metaKey"
+							placeholder="Örn: Am, Cm"
+						/>
+					</div>
+				</div>
+
+				<div id="lyricsContainer">
+					<div id="lyrics">
+						Sol panelden bir şarkı seçin, yeni klasör oluşturun veya
+						bilgisayardan klasör yükleyin.
+					</div>
+					<textarea id="lyricsEdit"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<!-- Yeni Klasör Oluşturma Penceresi -->
+		<div class="modal" id="newFolderModal">
+			<div class="modal-content">
+				<h3
+					style="color:var(--gold-primary); margin:0; font-family:'Cinzel', serif;"
+				>
+					📁 Yeni Klasör Oluştur
+				</h3>
+
+				<label
+					style="color:var(--gold-primary); font-size:11px; font-weight:bold; text-transform:uppercase;"
+					>Klasör Adı:</label
+				>
+				<input
+					type="text"
+					id="newFolderNameInput"
+					placeholder="Örn: Özgün Müzik"
+					style="background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.1); color:#fff; padding:12px; border-radius:8px; font-size: 14px; outline:none;"
+				/>
+
+				<div
+					style="display:flex; justify-content:flex-end; gap:10px; margin-top:8px;"
+				>
+					<button class="btn" onclick="closeNewFolderModal()">
+						İptal
+					</button>
+					<button class="btn btn-gold" onclick="createNewFolder()">
+						Oluştur
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Şarkı / TXT Ekleme Penceresi -->
+		<div class="modal" id="addModal">
+			<div class="modal-content">
+				<h3
+					style="color:var(--gold-primary); margin:0; font-family:'Cinzel', serif;"
+				>
+					➕ Yeni Şarkı / TXT Ekle
+				</h3>
+
+				<label
+					style="color:var(--gold-primary); font-size:11px; font-weight:bold; text-transform:uppercase;"
+					>Eklenecek Klasör:</label
+				>
+				<select id="targetFolderSelect" style="width:100%;">
+					<option value="Genel">📂 Genel / Kök Klasör</option>
+				</select>
+
+				<input
+					type="text"
+					id="newTitle"
+					placeholder="Şarkı / Parça Adı"
+					style="background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.1); color:#fff; padding:12px; border-radius:8px; font-size: 14px; outline:none;"
+				/>
+				<input
+					type="text"
+					id="newArtist"
+					placeholder="Sanatçı Adı (Opsiyonel)"
+					style="background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.1); color:#fff; padding:12px; border-radius:8px; font-size: 14px; outline:none;"
+				/>
+				<textarea
+					id="newLyrics"
+					placeholder="Şarkı sözlerini / TXT içeriğini buraya yapıştırın veya yazın..."
+				></textarea>
+
+				<div
+					style="display:flex; justify-content:flex-end; gap:10px; margin-top:8px;"
+				>
+					<button class="btn" onclick="closeAddModal()">İptal</button>
+					<button class="btn btn-gold" onclick="saveNewSong()">
+						Kaydet
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Klasöre Kopyala Penceresi -->
+		<div class="modal" id="copyModal">
+			<div class="modal-content">
+				<h3
+					style="color:var(--gold-primary); margin:0; font-family:'Cinzel', serif;"
+				>
+					📋 Şarkıyı Klasöre Kopyala
+				</h3>
+				<p
+					id="copySongName"
+					style="color:var(--text-muted); font-size:13px; margin:0;"
+				></p>
+
+				<label
+					style="color:var(--gold-primary); font-size:11px; font-weight:bold; text-transform:uppercase;"
+					>Hedef Klasör:</label
+				>
+				<select
+					id="copyTargetFolderSelect"
+					style="width:100%;"
+				></select>
+
+				<div
+					style="display:flex; justify-content:flex-end; gap:10px; margin-top:12px;"
+				>
+					<button class="btn" onclick="closeCopyModal()">
+						İptal
+					</button>
+					<button class="btn btn-gold" onclick="confirmCopySong()">
+						Kopyala
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Klasör Yeniden Adlandırma Penceresi -->
+		<div class="modal" id="renameFolderModal">
+			<div class="modal-content">
+				<h3
+					style="color:var(--gold-primary); margin:0; font-family:'Cinzel', serif;"
+				>
+					✏️ Klasör Adını Değiştir
+				</h3>
+				<p
+					id="renameFolderOldName"
+					style="color:var(--text-muted); font-size:13px; margin:0;"
+				></p>
+
+				<label
+					style="color:var(--gold-primary); font-size:11px; font-weight:bold; text-transform:uppercase;"
+					>Yeni Klasör Adı:</label
+				>
+				<input
+					type="text"
+					id="renameFolderInput"
+					placeholder="Yeni isim girin..."
+					style="background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.1); color:#fff; padding:12px; border-radius:8px; font-size: 14px; outline:none;"
+				/>
+
+				<div
+					style="display:flex; justify-content:flex-end; gap:10px; margin-top:12px;"
+				>
+					<button class="btn" onclick="closeRenameFolderModal()">
+						İptal
+					</button>
+					<button
+						class="btn btn-gold"
+						onclick="confirmRenameFolder()"
+					>
+						Değiştir
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Sağ Tık Menüsü (Dosya için) -->
+		<div id="contextMenu" class="context-menu">
+			<div class="context-menu-item" onclick="contextAction('edit')">
+				✏️ Sözleri Düzenle
+			</div>
+			<div class="context-menu-item" onclick="contextAction('fav')">
+				⭐ Favorilere Ekle/Çıkar
+			</div>
+			<div class="context-menu-item" onclick="contextAction('copy')">
+				📋 Klasöre Kopyala
+			</div>
+			<div
+				class="context-menu-item danger"
+				onclick="contextAction('delete')"
+			>
+				🗑️ Şarkıyı Sil
+			</div>
+		</div>
+
+		<!-- Sağ Tık Menüsü (Klasör için) -->
+		<div id="folderContextMenu" class="context-menu">
+			<div
+				class="context-menu-item"
+				onclick="folderContextAction('rename')"
+			>
+				✏️ Klasör Adını Değiştir
+			</div>
+		</div>
+
+		<script>
+			let fileFlatList = [];
+			let fileSystem = { "_isDir": true, "contents": {} };
+			let currentPath = [];
+			let activeFileKey = null;
+			let activeSongObj = null;
+			let contextTargetItem = null;
+			let contextTargetFolder = null;
+
+			let customFolders = JSON.parse(localStorage.getItem('rep_custom_folders') || '["Genel"]');
+			let availableFolders = new Set(customFolders);
+
+			let favorites = JSON.parse(localStorage.getItem('rep_favorites') || '[]');
+			let songMetadata = JSON.parse(localStorage.getItem('rep_metadata') || '{}');
+			let webSongs = JSON.parse(localStorage.getItem('rep_web_songs') || '[]');
+			let editedLyricsMap = JSON.parse(localStorage.getItem('rep_edited_lyrics') || '{}');
+			let folderRenames = JSON.parse(localStorage.getItem('rep_folder_renames') || '{}');
+
+			const folderInput = document.getElementById('folderInput');
+			const explorer = document.getElementById('explorer');
+			const lyricsElement = document.getElementById('lyrics');
+			const lyricsEditElement = document.getElementById('lyricsEdit');
+			const lyricsToolbar = document.getElementById('lyricsToolbar');
+			const pathText = document.getElementById('pathText');
+			const viewModeSelect = document.getElementById('viewMode');
+			const sortModeSelect = document.getElementById('sortMode');
+			const searchInput = document.getElementById('searchInput');
+			const metaPanel = document.getElementById('metaPanel');
+			const contextMenu = document.getElementById('contextMenu');
+			const folderContextMenu = document.getElementById('folderContextMenu');
+
+			const metaRhythm = document.getElementById('metaRhythm');
+			const metaBpm = document.getElementById('metaBpm');
+			const metaKey = document.getElementById('metaKey');
+
+			/* Resizer */
+			const sidebar = document.getElementById('sidebar');
+			const resizer = document.getElementById('resizer');
+			let isResizing = false;
+
+			function startResize(e) {
+			    isResizing = true;
+			    document.addEventListener('mousemove', handleResize);
+			    document.addEventListener('touchmove', handleResize);
+			    document.addEventListener('mouseup', stopResize);
+			    document.addEventListener('touchend', stopResize);
+			}
+
+			function handleResize(e) {
+			    if (!isResizing) return;
+			    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+			    const newWidth = clientX - sidebar.getBoundingClientRect().left;
+			    if (newWidth > 220 && newWidth < 600) {
+			        sidebar.style.width = newWidth + 'px';
+			    }
+			}
+
+			function stopResize() {
+			    isResizing = false;
+			    document.removeEventListener('mousemove', handleResize);
+			    document.removeEventListener('touchmove', handleResize);
+			    document.removeEventListener('mouseup', stopResize);
+			    document.removeEventListener('touchend', stopResize);
+			}
+
+			resizer.addEventListener('mousedown', startResize);
+			resizer.addEventListener('touchstart', startResize);
+
+			/* SAĞ TIK MENÜLERİ YÖNETİMİ */
+			window.addEventListener('click', () => {
+			    contextMenu.style.display = 'none';
+			    folderContextMenu.style.display = 'none';
+			});
+
+			function showContextMenu(e, item) {
+			    e.preventDefault();
+			    e.stopPropagation();
+			    folderContextMenu.style.display = 'none';
+			    contextTargetItem = item;
+
+			    contextMenu.style.left = e.clientX + 'px';
+			    contextMenu.style.top = e.clientY + 'px';
+			    contextMenu.style.display = 'block';
+			}
+
+			function showFolderContextMenu(e, folderName) {
+			    e.preventDefault();
+			    e.stopPropagation();
+			    contextMenu.style.display = 'none';
+			    contextTargetFolder = folderName;
+
+			    folderContextMenu.style.left = e.clientX + 'px';
+			    folderContextMenu.style.top = e.clientY + 'px';
+			    folderContextMenu.style.display = 'block';
+			}
+
+			function contextAction(action) {
+			    if (!contextTargetItem) return;
+			    contextMenu.style.display = 'none';
+
+			    if (action === 'edit') {
+			        if (contextTargetItem.isWeb) {
+			            loadWebLyrics(contextTargetItem);
+			        } else {
+			            loadLyrics(contextTargetItem.fileObj, contextTargetItem.path);
+			        }
+			        toggleEditLyrics();
+			    }
+			    else if (action === 'fav') {
+			        toggleFavorite(null, contextTargetItem.path);
+			    }
+			    else if (action === 'copy') {
+			        openCopyModal(contextTargetItem);
+			    }
+			    else if (action === 'delete') {
+			        activeFileKey = contextTargetItem.path;
+			        activeSongObj = contextTargetItem;
+			        deleteCurrentSong();
+			    }
+			}
+
+			function folderContextAction(action) {
+			    if (!contextTargetFolder) return;
+			    folderContextMenu.style.display = 'none';
+
+			    if (action === 'rename') {
+			        openRenameFolderModal(contextTargetFolder);
+			    }
+			}
+
+			/* KLASÖR YÖNETİMİ */
+			function openNewFolderModal() {
+			    document.getElementById('newFolderNameInput').value = '';
+			    document.getElementById('newFolderModal').style.display = 'flex';
+			}
+
+			function closeNewFolderModal() {
+			    document.getElementById('newFolderModal').style.display = 'none';
+			}
+
+			function createNewFolder() {
+			    const folderName = document.getElementById('newFolderNameInput').value.trim();
+			    if (!folderName) {
+			        alert("Lütfen bir klasör adı girin.");
+			        return;
+			    }
+
+			    availableFolders.add(folderName);
+			    if(!customFolders.includes(folderName)) {
+			        customFolders.push(folderName);
+			        localStorage.setItem('rep_custom_folders', JSON.stringify(customFolders));
+			    }
+
+			    // Sanal dosya sistemine ekle
+			    if(!fileSystem.contents[folderName]) {
+			        fileSystem.contents[folderName] = { "_isDir": true, "contents": {} };
+			    }
+
+			    closeNewFolderModal();
+			    renderExplorer();
+			}
+
+			function openRenameFolderModal(folderName) {
+			    document.getElementById('renameFolderOldName').textContent = `Mevcut Klasör: ${folderName}`;
+			    document.getElementById('renameFolderInput').value = folderName;
+			    document.getElementById('renameFolderModal').style.display = 'flex';
+			}
+
+			function closeRenameFolderModal() {
+			    document.getElementById('renameFolderModal').style.display = 'none';
+			}
+
+			function confirmRenameFolder() {
+			    if (!contextTargetFolder) return;
+			    const newName = document.getElementById('renameFolderInput').value.trim();
+
+			    if (!newName || newName === contextTargetFolder) {
+			        closeRenameFolderModal();
+			        return;
+			    }
+
+			    folderRenames[contextTargetFolder] = newName;
+			    localStorage.setItem('rep_folder_renames', JSON.stringify(folderRenames));
+
+			    if (currentPath.length > 0 && currentPath[currentPath.length - 1] === contextTargetFolder) {
+			        currentPath[currentPath.length - 1] = newName;
+			    }
+
+			    closeRenameFolderModal();
+			    renderExplorer();
+			}
+
+			/* KOPYALAMA İŞLEMİ */
+			function openCopyModal(item) {
+			    document.getElementById('copySongName').textContent = `Şarkı: ${item.name}`;
+			    const select = document.getElementById('copyTargetFolderSelect');
+			    select.innerHTML = '<option value="Genel">📂 Genel / Kök Klasör</option>';
+
+			    availableFolders.forEach(folder => {
+			        const displayName = folderRenames[folder] || folder;
+			        if (folder !== 'Genel') {
+			            const opt = document.createElement('option');
+			            opt.value = folder;
+			            opt.textContent = `📁 ${displayName}`;
+			            select.appendChild(opt);
+			        }
+			    });
+
+			    document.getElementById('copyModal').style.display = 'flex';
+			}
+
+			function closeCopyModal() {
+			    document.getElementById('copyModal').style.display = 'none';
+			}
+
+			function confirmCopySong() {
+			    if (!contextTargetItem) return;
+			    const targetFolder = document.getElementById('copyTargetFolderSelect').value;
+
+			    let lyricsContent = contextTargetItem.lyrics || editedLyricsMap[contextTargetItem.path] || '';
+
+			    if (!lyricsContent && contextTargetItem.fileObj) {
+			        const reader = new FileReader();
+			        reader.onload = (e) => {
+			            createCopiedWebSong(contextTargetItem.name, targetFolder, e.target.result);
+			        };
+			        reader.readAsText(contextTargetItem.fileObj, 'windows-1254');
+			        return;
+			    }
+
+			    createCopiedWebSong(contextTargetItem.name, targetFolder, lyricsContent);
+			}
+
+			function createCopiedWebSong(name, folder, lyrics) {
+			    const pathKey = `manual_${Date.now()}`;
+			    const copiedSong = {
+			        name: `${name} (Kopya)`,
+			        album: folder,
+			        path: pathKey,
+			        isWeb: true,
+			        lyrics: lyrics
+			    };
+
+			    webSongs.push(copiedSong);
+			    localStorage.setItem('rep_web_songs', JSON.stringify(webSongs));
+			    closeCopyModal();
+			    renderExplorer();
+			}
+
+			/* ŞARKI / TXT EKLEME */
+			function openAddModal() {
+			    populateFolderOptions();
+			    document.getElementById('addModal').style.display = 'flex';
+			}
+
+			function closeAddModal() {
+			    document.getElementById('addModal').style.display = 'none';
+			}
+
+			function populateFolderOptions() {
+			    const select = document.getElementById('targetFolderSelect');
+			    select.innerHTML = '<option value="Genel">📂 Genel / Kök Klasör</option>';
+
+			    const currentActiveFolder = currentPath.length > 0 ? currentPath[currentPath.length - 1] : "Genel";
+
+			    availableFolders.forEach(folder => {
+			        const displayName = folderRenames[folder] || folder;
+			        if (folder !== 'Genel') {
+			            const opt = document.createElement('option');
+			            opt.value = folder;
+			            opt.textContent = `📁 ${displayName}`;
+			            if (folder === currentActiveFolder || displayName === currentActiveFolder) {
+			                opt.selected = true;
+			            }
+			            select.appendChild(opt);
+			        }
+			    });
+			}
+
+			function saveNewSong() {
+			    const title = document.getElementById('newTitle').value.trim();
+			    const artist = document.getElementById('newArtist').value.trim() || '';
+			    const targetFolder = document.getElementById('targetFolderSelect').value;
+			    const lyrics = document.getElementById('newLyrics').value.trim();
+
+			    if (!title || !lyrics) {
+			        alert('Lütfen şarkı adını ve sözleri/içeriği giriniz.');
+			        return;
+			    }
+
+			    const fullTitle = artist ? `${artist} - ${title}` : title;
+			    const pathKey = `manual_${Date.now()}`;
+
+			    const newSong = {
+			        name: fullTitle,
+			        album: targetFolder,
+			        path: pathKey,
+			        isWeb: true,
+			        lyrics: lyrics
+			    };
+
+			    webSongs.push(newSong);
+			    localStorage.setItem('rep_web_songs', JSON.stringify(webSongs));
+
+			    document.getElementById('newTitle').value = '';
+			    document.getElementById('newArtist').value = '';
+			    document.getElementById('newLyrics').value = '';
+			    closeAddModal();
+
+			    renderExplorer();
+			}
+
+			/* Şarkı Sözü Düzenleme & Silme */
+			function toggleEditLyrics() {
+			    if (!activeFileKey) return;
+			    lyricsElement.style.display = 'none';
+			    lyricsEditElement.style.display = 'block';
+			    lyricsEditElement.value = lyricsElement.textContent;
+			    document.getElementById('editBtn').style.display = 'none';
+			    document.getElementById('saveBtn').style.display = 'inline-flex';
+			}
+
+			function saveEditedLyrics() {
+			    if (!activeFileKey) return;
+			    const updatedLyrics = lyricsEditElement.value;
+
+			    if (activeSongObj && activeSongObj.isWeb) {
+			        activeSongObj.lyrics = updatedLyrics;
+			        localStorage.setItem('rep_web_songs', JSON.stringify(webSongs));
+			    } else {
+			        editedLyricsMap[activeFileKey] = updatedLyrics;
+			        localStorage.setItem('rep_edited_lyrics', JSON.stringify(editedLyricsMap));
+			    }
+
+			    lyricsElement.textContent = updatedLyrics;
+			    lyricsElement.style.display = 'block';
+			    lyricsEditElement.style.display = 'none';
+			    document.getElementById('editBtn').style.display = 'inline-flex';
+			    document.getElementById('saveBtn').style.display = 'none';
+			}
+
+			function deleteCurrentSong() {
+			    if (!activeFileKey) return;
+			    if (!confirm("Bu şarkıyı listeden silmek istediğinize emin misiniz?")) return;
+
+			    webSongs = webSongs.filter(s => s.path !== activeFileKey);
+			    localStorage.setItem('rep_web_songs', JSON.stringify(webSongs));
+
+			    fileFlatList = fileFlatList.filter(s => s.path !== activeFileKey);
+
+			    delete editedLyricsMap[activeFileKey];
+			    delete songMetadata[activeFileKey];
+			    localStorage.setItem('rep_edited_lyrics', JSON.stringify(editedLyricsMap));
+			    localStorage.setItem('rep_metadata', JSON.stringify(songMetadata));
+
+			    lyricsElement.textContent = "Şarkı silindi. Sol panelden başka bir şarkı seçebilirsiniz.";
+			    lyricsToolbar.style.display = 'none';
+			    metaPanel.style.display = 'none';
+			    activeFileKey = null;
+
+			    renderExplorer();
+			}
+
+			let cachedFiles = [];
+			folderInput.addEventListener('change', (e) => {
+			    cachedFiles = Array.from(e.target.files);
+			    rebuildAndRefresh();
+			});
+
+			function rebuildAndRefresh() {
+			    buildFileSystem(cachedFiles);
+			    renderExplorer();
+			}
+
+			function buildFileSystem(files) {
+			    fileSystem = { "_isDir": true, "contents": {} };
+			    fileFlatList = [];
+
+			    // Manuel eklenen tüm klasörleri koru
+			    customFolders.forEach(f => {
+			        fileSystem.contents[f] = { "_isDir": true, "contents": {} };
+			    });
+
+			    files.forEach(file => {
+			        if(file.name.startsWith('.')) return;
+
+			        const parts = file.webkitRelativePath.split('/');
+			        let rawAlbumName = parts.length > 2 ? parts[parts.length - 2] : "Genel";
+
+			        for (let i = 1; i < parts.length - 1; i++) {
+			            availableFolders.add(parts[i]);
+			        }
+
+			        fileFlatList.push({
+			            name: file.name,
+			            fileObj: file,
+			            path: file.webkitRelativePath,
+			            album: rawAlbumName,
+			            isWeb: false
+			        });
+
+			        let current = fileSystem;
+			        for (let i = 1; i < parts.length; i++) {
+			            let part = parts[i];
+			            if (i === parts.length - 1) {
+			                current.contents[part] = file;
+			            } else {
+			                if (!current.contents[part]) {
+			                    current.contents[part] = { "_isDir": true, "contents": {} };
+			                }
+			                current = current.contents[part];
+			            }
+			        }
+			    });
+			}
+
+			function renderExplorer() {
+			    explorer.innerHTML = '';
+			    const viewMode = viewModeSelect.value;
+			    const sortMode = sortModeSelect.value;
+			    const query = searchInput.value.trim().toLowerCase();
+
+			    if (query.length > 0) {
+			        renderSearchView(query, sortMode);
+			    } else if (viewMode === 'explorer') {
+			        renderFolderView(sortMode);
+			    } else {
+			        renderFlatView(viewMode, sortMode);
+			    }
+			}
+
+			function renderSearchView(query, sortMode) {
+			    pathText.textContent = `🔍 Arama: "${query}"`;
+
+			    const allCombined = [...fileFlatList, ...webSongs];
+			    let list = allCombined.filter(item =>
+			        item.name.toLowerCase().includes(query) ||
+			        item.album.toLowerCase().includes(query)
+			    );
+
+			    sortList(list, sortMode);
+			    renderListItems(list);
+			}
+
+			function renderFolderView(sortMode) {
+			    let currentFolder = fileSystem;
+			    let realPathStack = [];
+
+			    currentPath.forEach(displayPart => {
+			        let actualPart = displayPart;
+			        for (let [orig, renamed] of Object.entries(folderRenames)) {
+			            if (renamed === displayPart) {
+			                actualPart = orig;
+			                break;
+			            }
+			        }
+			        realPathStack.push(actualPart);
+			        if(currentFolder.contents && currentFolder.contents[actualPart]) {
+			            currentFolder = currentFolder.contents[actualPart];
+			        }
+			    });
+
+			    const activeFolderStr = currentPath.join(' / ') || "Ana Klasör";
+			    pathText.textContent = "📍 " + activeFolderStr;
+
+			    let folderFiles = [];
+			    let subFolders = [];
+
+			    if (currentFolder.contents) {
+			        Object.keys(currentFolder.contents).forEach(name => {
+			            const obj = currentFolder.contents[name];
+			            if (obj._isDir) {
+			                subFolders.push(name);
+			            } else {
+			                let rawAlb = realPathStack[realPathStack.length - 1] || 'Genel';
+			                folderFiles.push({ name: name, fileObj: obj, path: obj.webkitRelativePath, album: rawAlb, isWeb: false });
+			            }
+			        });
+			    }
+
+			    const targetFolderName = realPathStack.length > 0 ? realPathStack[realPathStack.length - 1] : "Genel";
+			    const currentWebSongs = webSongs.filter(s => s.album === targetFolderName);
+
+			    subFolders.sort((a, b) => {
+			        let nameA = folderRenames[a] || a;
+			        let nameB = folderRenames[b] || b;
+			        return nameA.localeCompare(nameB, 'tr', {numeric: true});
+			    });
+
+			    subFolders.forEach(name => {
+			        const displayName = folderRenames[name] || name;
+			        const li = document.createElement('li');
+			        li.className = 'item folder';
+			        li.innerHTML = `<div class="item-info"><span class="icon">📁</span> <span>${displayName}</span></div>`;
+			        li.onclick = () => {
+			            currentPath.push(displayName);
+			            renderExplorer();
+			        };
+			        li.oncontextmenu = (e) => showFolderContextMenu(e, name);
+			        explorer.appendChild(li);
+			    });
+
+			    folderFiles.forEach(item => {
+			        const isFav = favorites.includes(item.path);
+			        const li = document.createElement('li');
+			        li.className = 'item file' + (activeFileKey === item.path ? ' active' : '');
+			        li.innerHTML = `
+			            <div class="item-info">
+			                <span class="icon">📄</span>
+			                <span>${item.name}</span>
+			            </div>
+			            <span class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${escapeQuotes(item.path)}')">★</span>
+			        `;
+			        li.onclick = () => loadLyrics(item.fileObj, item.path, li);
+			        li.oncontextmenu = (e) => showContextMenu(e, item);
+			        explorer.appendChild(li);
+			    });
+
+			    currentWebSongs.forEach(item => {
+			        const isFav = favorites.includes(item.path);
+			        const li = document.createElement('li');
+			        li.className = 'item file' + (activeFileKey === item.path ? ' active' : '');
+			        li.innerHTML = `
+			            <div class="item-info">
+			                <span class="icon">📝</span>
+			                <span>${item.name}</span>
+			            </div>
+			            <span class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${escapeQuotes(item.path)}')">★</span>
+			        `;
+			        li.onclick = () => loadWebLyrics(item, li);
+			        li.oncontextmenu = (e) => showContextMenu(e, item);
+			        explorer.appendChild(li);
+			    });
+			}
+
+			function renderFlatView(viewMode, sortMode) {
+			    if (viewMode === 'web') {
+			        pathText.textContent = "📝 Eklenen / Düzenlenenler";
+			        sortList(webSongs, sortMode);
+			        renderListItems(webSongs);
+			        return;
+			    }
+
+			    pathText.textContent = viewMode === 'favorites' ? "⭐ Favoriler" : "🎶 Tüm Şarkılar";
+
+			    let list = [...fileFlatList, ...webSongs];
+
+			    if (viewMode === 'favorites') {
+			        list = list.filter(item => favorites.includes(item.path));
+			    }
+
+			    sortList(list, sortMode);
+			    renderListItems(list);
+			}
+
+			function sortList(list, sortMode) {
+			    list.sort((a, b) => {
+			        if (sortMode === 'album') {
+			            const albA = folderRenames[a.album] || a.album;
+			            const albB = folderRenames[b.album] || b.album;
+			            const albumCompare = albA.localeCompare(albB, 'tr', {numeric: true});
+			            if (albumCompare !== 0) return albumCompare;
+			            return a.name.localeCompare(b.name, 'tr', {numeric: true});
+			        } else if (sortMode === 'za') {
+			            return b.name.localeCompare(a.name, 'tr', {numeric: true});
+			        } else {
+			            return a.name.localeCompare(b.name, 'tr', {numeric: true});
+			        }
+			    });
+			}
+
+			function renderListItems(list) {
+			    list.forEach(item => {
+			        const isFav = favorites.includes(item.path);
+			        const displayAlbum = folderRenames[item.album] || item.album;
+			        const li = document.createElement('li');
+			        li.className = 'item file' + (activeFileKey === item.path ? ' active' : '');
+
+			        li.innerHTML = `
+			            <div class="item-info">
+			                <span class="icon">${item.isWeb ? '📝' : '📄'}</span>
+			                <div>
+			                    <div>${item.name}</div>
+			                    <small style="opacity:0.6; font-size:0.8em;">📁 ${displayAlbum}</small>
+			                </div>
+			            </div>
+			            <span class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${escapeQuotes(item.path)}')">★</span>
+			        `;
+
+			        if (item.isWeb) {
+			            li.onclick = () => loadWebLyrics(item, li);
+			        } else {
+			            li.onclick = () => loadLyrics(item.fileObj, item.path, li);
+			        }
+
+			        li.oncontextmenu = (e) => showContextMenu(e, item);
+			        explorer.appendChild(li);
+			    });
+			}
+
+			function loadWebLyrics(item, element) {
+			    activeFileKey = item.path;
+			    activeSongObj = item;
+
+			    lyricsElement.textContent = item.lyrics;
+			    showLyricsView();
+
+			    document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
+			    if(element) element.classList.add('active');
+
+			    document.querySelector('.content').scrollTop = 0;
+			    loadMetadata(item.path);
+			}
+
+			function loadLyrics(file, fileKey, element) {
+			    activeFileKey = fileKey;
+			    activeSongObj = null;
+
+			    if (editedLyricsMap[fileKey]) {
+			        lyricsElement.textContent = editedLyricsMap[fileKey];
+			        showLyricsView();
+			        document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
+			        if(element) element.classList.add('active');
+			        document.querySelector('.content').scrollTop = 0;
+			        loadMetadata(fileKey);
+			        return;
+			    }
+
+			    const reader = new FileReader();
+			    reader.onload = (e) => {
+			        lyricsElement.textContent = e.target.result;
+			        showLyricsView();
+
+			        document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
+			        if(element) element.classList.add('active');
+
+			        document.querySelector('.content').scrollTop = 0;
+			        loadMetadata(fileKey);
+			    };
+
+			    reader.readAsText(file, 'windows-1254');
+			}
+
+			function showLyricsView() {
+			    lyricsElement.style.display = 'block';
+			    lyricsEditElement.style.display = 'none';
+			    lyricsToolbar.style.display = 'flex';
+			    document.getElementById('editBtn').style.display = 'inline-flex';
+			    document.getElementById('saveBtn').style.display = 'none';
+			}
+
+			function goBack() {
+			    if (searchInput.value.length > 0) {
+			        searchInput.value = '';
+			        renderExplorer();
+			        return;
+			    }
+			    if (viewModeSelect.value === 'explorer' && currentPath.length > 0) {
+			        currentPath.pop();
+			        renderExplorer();
+			    }
+			}
+
+			function toggleFavorite(event, fileKey) {
+			    if (event) event.stopPropagation();
+			    const index = favorites.indexOf(fileKey);
+			    if (index > -1) {
+			        favorites.splice(index, 1);
+			    } else {
+			        favorites.push(fileKey);
+			    }
+			    localStorage.setItem('rep_favorites', JSON.stringify(favorites));
+			    renderExplorer();
+			}
+
+			function loadMetadata(fileKey) {
+			    metaPanel.style.display = 'grid';
+			    const data = songMetadata[fileKey] || { rhythm: '', bpm: '', key: '' };
+			    metaRhythm.value = data.rhythm || '';
+			    metaBpm.value = data.bpm || '';
+			    metaKey.value = data.key || '';
+			}
+
+			function saveMetadata() {
+			    if (!activeFileKey) return;
+			    songMetadata[activeFileKey] = {
+			        rhythm: metaRhythm.value,
+			        bpm: metaBpm.value,
+			        key: metaKey.value
+			    };
+			    localStorage.setItem('rep_metadata', JSON.stringify(songMetadata));
+			}
+
+			function adjustFolderFontSize(delta) {
+			    const root = document.documentElement;
+			    let current = parseInt(getComputedStyle(root).getPropertyValue('--folder-font-size')) || 15;
+			    current = Math.min(26, Math.max(12, current + delta));
+			    root.style.setProperty('--folder-font-size', current + 'px');
+			}
+
+			function adjustLyricsFontSize(delta) {
+			    const slider = document.getElementById('fontSize');
+			    let current = parseInt(slider.value) || 30;
+			    current = Math.min(80, Math.max(16, current + delta));
+			    slider.value = current;
+			    lyricsElement.style.fontSize = current + 'px';
+			    lyricsEditElement.style.fontSize = current + 'px';
+			}
+
+			[metaRhythm, metaBpm, metaKey].forEach(input => {
+			    input.addEventListener('input', saveMetadata);
+			});
+
+			searchInput.addEventListener('input', renderExplorer);
+			viewModeSelect.onchange = renderExplorer;
+			sortModeSelect.onchange = renderExplorer;
+
+			document.getElementById('fontSize').oninput = (e) => {
+			    lyricsElement.style.fontSize = e.target.value + 'px';
+			    lyricsEditElement.style.fontSize = e.target.value + 'px';
+			};
+
+			document.getElementById('refresh').onclick = () => {
+			    folderInput.click();
+			};
+
+			function escapeQuotes(str) {
+			    return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+			}
+
+			// Başlangıç yüklemeleri
+			buildFileSystem([]);
+			renderExplorer();
+		</script>
+	</body>
+</html>
